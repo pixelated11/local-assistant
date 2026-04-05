@@ -1,5 +1,13 @@
 import customtkinter as ctk
 import subprocess
+import sys
+import os
+
+# Get the correct path for bundled files when using PyInstaller
+def resource_path(filename):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, filename)
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
 
 app = ctk.CTk()
 app.grid_columnconfigure(0, weight=1)
@@ -8,18 +16,19 @@ label = ctk.CTkLabel(app, text="Install Qwen3 4B LLM? Will take 5GB+ space. (Req
 label.grid(row=0, column=0, pady=10, padx=20)
 
 def install_button():
-    subprocess.run(["chmod", "+x", "./install-llm.sh"])
-    result = subprocess.run(["sudo", "./install-llm.sh"])
+    script_path = resource_path("install-llm.sh")
+    subprocess.run(["chmod", "+x", script_path])
+    result = subprocess.run(["sudo", script_path])
 
     if result.returncode == 0:
         app.destroy()
-        subprocess.run(["python", "program.py"])
+        subprocess.run(["python", resource_path("program.py")])
     else:
         print("Installation failed. Cannot continue.")
 
 def abort_button():
     print("Cannot continue LocalAssistant installation. Aborted")
-    exit(0)
+    sys.exit(0)
 
 button = ctk.CTkButton(app, text="Install (Look in terminal, will ask for sudo)", font=ctk.CTkFont("Adwaita Sans", 20), command=install_button)
 button.grid(row=1, column=0, padx=30, pady=20)
