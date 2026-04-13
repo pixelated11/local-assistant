@@ -12,7 +12,7 @@ def resource_path(filename):
 def check_ollama():
     try:
         result = subprocess.run(["ollama", "list"], capture_output=True, text=True)
-        if "qwen3:4b-q4_K_M" in result.stdout:
+        if "qwen3:4b" in result.stdout:
             # Model already installed, go straight to program.py
             subprocess.run(["python", resource_path("program.py")])
             sys.exit(0)

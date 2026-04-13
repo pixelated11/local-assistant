@@ -9,7 +9,7 @@ else
 fi
 
 echo "Checking if Qwen3 4B is already installed..."
-if ollama list | grep -q "qwen3:4b-q4_K_M"; then
+if ollama list | grep -q "qwen3:4b"; then
     echo "Qwen3 4B already installed. Redirecting to GUI..."
     exit 0
 else
@@ -21,7 +21,7 @@ sleep 1
 
 if curl -fsSL https://ollama.com/install.sh | sh; then
     echo "Ollama installed. Pulling Qwen3 4B..."
-    ollama pull qwen3:4b-q4_K_M
+    ollama pull qwen3:4b
     echo "Done! Redirecting to GUI..."
     exit 0
 else

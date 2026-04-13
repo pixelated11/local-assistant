@@ -47,7 +47,7 @@ def send_prompt():
 
     def run():
         response = ollama.chat(
-            model="qwen3:4b-q4_K_M",
+            model="qwen3:4b",
             messages=[{"role": "user", "content": prompt}]
         )
         answer = response["message"]["content"]
@@ -67,7 +67,7 @@ label_status.grid(row=6, column=0, padx=10, pady=5)
 
 # Stop AI button
 def stop_ai():
-    subprocess.run(["ollama", "stop", "qwen3:4b-q4_K_M"])
+    subprocess.run(["ollama", "stop", "qwen3:4b"])
     label_status.configure(text="● AI Status: Stopped")
 
 button_stop = ctk.CTkButton(app, text="Stop AI (If you don't, it will run in the background, and consume RAM.)", command=stop_ai, font=ctk.CTkFont("Adwaita Mono", 15))
