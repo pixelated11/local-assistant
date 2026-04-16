@@ -1,0 +1,23 @@
+name: Build
+
+on: 
+  push:
+    branches:
+      - master-win
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pyinstaller customtkinter ollama markdown-it-py anyio httpx httpcore sniffio h11
+      - run: pyinstaller --onefile --windowed --add-data "program.py;." --add-data "install-llm.ps1;." --add-data "install-llm.sh;." --collect-all customtkinter --collect-all ollama --collect-all markdown_it --collect-all anyio --collect-all httpx --collect-all httpcore --collect-all sniffio --collect-all h11 start.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LocalAssistant-Windows
+          path: dist/start.exe
+
+# Automate builds whenever I push from my computer. DO NOT set this to run automatically IF you are releasing a beta/alpha build.
